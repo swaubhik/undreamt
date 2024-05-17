@@ -56,7 +56,8 @@ class Translator:
                         j = random.randint(0, length-2)
                         ids[j][i], ids[j+1][i] = ids[j+1][i], ids[j][i]
 
-        varids = self.device(Variable(torch.LongTensor(ids), requires_grad=False, volatile=not train))
+        with torch.no_grad():
+            varids = self.device(Variable(torch.LongTensor(ids), requires_grad=False))
         hidden = self.device(self.encoder.initial_hidden(len(sentences)))
         hidden, context = self.encoder(ids=varids, lengths=lengths, word_embeddings=self.encoder_embeddings, hidden=hidden)
         return hidden, context, lengths
