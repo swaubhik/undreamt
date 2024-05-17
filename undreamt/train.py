@@ -383,7 +383,7 @@ class Validator:
         loss = 0
         for i in range(0, self.sentence_count, self.batch_size):
             j = min(i + self.batch_size, self.sentence_count)
-            loss += self.translator.score(self.sorted_source[i:j], self.sorted_reference[i:j], train=False).data[0]
+            loss += self.translator.score(self.sorted_source[i:j], self.sorted_reference[i:j], train=False).item()  # Fix: Convert 0-dim tensor to a number
         return np.exp(loss/self.reference_word_count)
 
     def translate(self):
