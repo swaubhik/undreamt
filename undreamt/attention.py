@@ -42,6 +42,7 @@ class GlobalAttention(nn.Module):
 
         # Mask alignment scores
         if mask is not None:
+            mask = mask.bool()  # Convert mask to boolean type
             align.data.masked_fill_(mask, -float('inf'))
 
         # Compute attention from alignment scores
