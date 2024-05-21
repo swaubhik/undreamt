@@ -35,7 +35,7 @@ class Translator:
         self.device = device
         weight = device(torch.ones(generator.output_classes()))
         weight[data.PAD] = 0
-        self.criterion = nn.NLLLoss(weight, size_average=False)
+        self.criterion = nn.NLLLoss(weight, reduction='sum')
 
     def _train(self, mode):
         self.encoder_embeddings.train(mode)
@@ -67,7 +67,8 @@ class Translator:
         max_length = max(lengths)
         if max_length == min(lengths):
             return None
-        mask = torch.ByteTensor(batch_size, max_length).fill_(0)
+        # mask = torch.ByteTensor(batch_size, max_length).fill_(0)
+        mask = torch.cuda.BoolTensor(batch_size, max_length).fill_(0)
         for i in range(batch_size):
             for j in range(lengths[i], max_length):
                 mask[i, j] = 1
