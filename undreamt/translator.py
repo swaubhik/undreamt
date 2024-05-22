@@ -68,8 +68,8 @@ class Translator:
         if max_length == min(lengths):
             return None
         # 
-        mask = torch.tensor(batch_size, max_length, dtype=torch.bool, device='cuda').fill_(0)
-        # mask = torch.ByteTensor(batch_size, max_length).fill_(0)
+        # mask = torch.tensor(batch_size, max_length, dtype=torch.bool, device='cuda').fill_(0)
+        mask = torch.ByteTensor(batch_size, max_length).fill_(0)
         # mask = torch.cuda.BoolTensor(batch_size, max_length).fill_(0)
         for i in range(batch_size):
             for j in range(lengths[i], max_length):
